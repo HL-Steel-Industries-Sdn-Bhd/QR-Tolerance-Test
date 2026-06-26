@@ -3,246 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR码·容错实验室 - 纯内嵌版</title>
+    <title>QR码·容错实验室 - 修复扫描版</title>
     <style>
-        :root {
-            --bg: #f0f2f5;
-            --card: #ffffff;
-            --text: #1a1a2e;
-            --sub: #64748b;
-            --accent: #3b82f6;
-            --border: #e2e8f0;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background: var(--bg);
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 24px;
-        }
-        .container {
-            max-width: 860px;
-            width: 100%;
-            background: var(--card);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-            padding: 32px;
-        }
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text);
-            text-align: center;
-            margin-bottom: 4px;
-        }
-        .subtitle {
-            text-align: center;
-            color: var(--sub);
-            margin-bottom: 28px;
-            font-size: 0.9rem;
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        .input-group label {
-            font-weight: 600;
-            font-size: 0.8rem;
-            color: #334155;
-            display: block;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        textarea {
-            width: 100%;
-            padding: 14px;
-            font-size: 0.95rem;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            resize: vertical;
-            font-family: 'Courier New', monospace;
-            background: #fafbfc;
-            line-height: 1.5;
-        }
-        textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 24px;
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 16px;
-            align-items: flex-end;
-        }
-        .control-item {
-            flex: 1 1 150px;
-            min-width: 130px;
-        }
-        .control-item label {
-            font-weight: 600;
-            font-size: 0.75rem;
-            color: #475569;
-            display: block;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-        select,
-        button {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 10px;
-            border: 2px solid var(--border);
-            font-size: 0.9rem;
-            font-weight: 500;
-            background: white;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        button {
-            background: #1e293b;
-            color: white;
-            border: none;
-            font-weight: 600;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        button:hover {
-            background: #334155;
-        }
-        button.print-btn {
-            background: #2563eb;
-        }
-        button.print-btn:hover {
-            background: #1d4ed8;
-        }
-        .info-bar {
-            background: #f1f5f9;
-            padding: 12px 18px;
-            border-radius: 12px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 24px;
-            font-size: 0.85rem;
-            color: #1e293b;
-        }
-        .badge {
-            background: white;
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-weight: 600;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-        }
-        .badge.success {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-        .badge.error {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-        .qr-stage {
-            background: white;
-            border: 2px dashed var(--border);
-            border-radius: 20px;
-            padding: 28px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 240px;
-            margin-bottom: 12px;
-        }
-        .qr-stage canvas {
-            display: block;
-            max-width: 100%;
-            height: auto;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-            border-radius: 4px;
-        }
-        .placeholder-text {
-            color: #94a3b8;
-            font-size: 14px;
-            text-align: center;
-        }
-        .error-box {
-            color: #dc2626;
-            background: #fef2f2;
-            padding: 16px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .legend {
-            font-size: 0.8rem;
-            color: var(--sub);
-            text-align: center;
-        }
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-            .container {
-                box-shadow: none;
-                border-radius: 0;
-                padding: 0;
-                max-width: 100%;
-            }
-            .controls,
-            .input-group,
-            .info-bar,
-            .legend,
-            h1,
-            .subtitle,
-            button {
-                display: none !important;
-            }
-            .qr-stage {
-                border: none;
-                padding: 0;
-                margin: 0;
-            }
-            .qr-stage canvas {
-                width: 100%;
-                max-width: 100%;
-                page-break-inside: avoid;
-            }
-        }
+        :root { --bg: #f0f2f5; --card: #ffffff; --text: #1a1a2e; --sub: #64748b; --accent: #3b82f6;
+            --border: #e2e8f0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); font-family: 'Segoe UI', system-ui, sans-serif; display: flex;
+            justify-content: center; align-items: flex-start; min-height: 100vh; padding: 24px; }
+        .container { max-width: 860px; width: 100%; background: var(--card); border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08); padding: 32px; }
+        h1 { font-size: 1.8rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 4px; }
+        .subtitle { text-align: center; color: var(--sub); margin-bottom: 28px; font-size: 0.9rem; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { font-weight: 600; font-size: 0.8rem; color: #334155; display: block;
+            margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        textarea { width: 100%; padding: 14px; font-size: 0.95rem; border: 2px solid var(--border);
+            border-radius: 12px; resize: vertical; font-family: 'Courier New', monospace; background: #fafbfc;
+            line-height: 1.5; }
+        textarea:focus { outline: none; border-color: var(--accent); background: white;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .controls { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; background: #f8fafc;
+            padding: 20px; border-radius: 16px; align-items: flex-end; }
+        .control-item { flex: 1 1 150px; min-width: 130px; }
+        .control-item label { font-weight: 600; font-size: 0.75rem; color: #475569; display: block;
+            margin-bottom: 4px; text-transform: uppercase; }
+        select, button { width: 100%; padding: 10px 14px; border-radius: 10px; border: 2px solid var(--border);
+            font-size: 0.9rem; font-weight: 500; background: white; cursor: pointer; font-family: inherit; }
+        select:focus { outline: none; border-color: var(--accent); }
+        button { background: #1e293b; color: white; border: none; font-weight: 600; white-space: nowrap;
+            display: flex; align-items: center; justify-content: center; gap: 6px; }
+        button:hover { background: #334155; }
+        button.print-btn { background: #2563eb; }
+        button.print-btn:hover { background: #1d4ed8; }
+        .info-bar { background: #f1f5f9; padding: 12px 18px; border-radius: 12px; display: flex;
+            flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 24px; font-size: 0.85rem;
+            color: #1e293b; }
+        .badge { background: white; padding: 5px 14px; border-radius: 20px; font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); }
+        .badge.success { background: #dcfce7; color: #16a34a; }
+        .badge.error { background: #fef2f2; color: #dc2626; }
+        .qr-stage { background: white; border: 2px dashed var(--border); border-radius: 20px; padding: 28px;
+            display: flex; justify-content: center; align-items: center; min-height: 240px; margin-bottom: 12px; }
+        .qr-stage canvas { display: block; max-width: 100%; height: auto; image-rendering: pixelated;
+            image-rendering: crisp-edges; border-radius: 4px; }
+        .placeholder-text { color: #94a3b8; font-size: 14px; text-align: center; }
+        .error-box { color: #dc2626; background: #fef2f2; padding: 16px; border-radius: 8px; text-align: center;
+            font-size: 14px; line-height: 1.6; }
+        .legend { font-size: 0.8rem; color: var(--sub); text-align: center; }
+        @media print { body { background: white; padding: 0; } .container { box-shadow: none;
+            border-radius: 0; padding: 0; max-width: 100%; } .controls, .input-group, .info-bar, .legend,
+            h1, .subtitle, button { display: none !important; } .qr-stage { border: none; padding: 0;
+            margin: 0; } .qr-stage canvas { width: 100%; max-width: 100%; page-break-inside: avoid; } }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🔬 QR 容错实验室</h1>
-        <p class="subtitle">版本(尺寸) · 纠错等级 · 字符计数 · 打印 A4 · 纯内嵌零依赖</p>
-
+        <p class="subtitle">版本(尺寸) · 纠错等级 · 字符计数 · 打印 A4 · 可扫描</p>
         <div class="input-group">
             <label>📝 输入文字 / 数字 / 符号</label>
             <textarea id="textInput" rows="3" placeholder="输入任意内容...">https://hl-steel-industries-sdn-bhd.github.io/Cyril-ZYLfM3Bv859aDRcQ/</textarea>
         </div>
-
         <div class="controls">
             <div class="control-item">
                 <label>📐 版本</label>
@@ -259,10 +80,10 @@
             <div class="control-item">
                 <label>🛡️ 纠错等级</label>
                 <select id="errorLevel">
-                    <option value="L">L (≈7% 恢复)</option>
-                    <option value="M">M (≈15% 恢复)</option>
-                    <option value="Q">Q (≈25% 恢复)</option>
-                    <option value="H" selected>H (≈30% 恢复)</option>
+                    <option value="L">L (≈7%)</option>
+                    <option value="M">M (≈15%)</option>
+                    <option value="Q">Q (≈25%)</option>
+                    <option value="H" selected>H (≈30%)</option>
                 </select>
             </div>
             <div class="control-item" style="flex:0 0 auto;">
@@ -272,7 +93,6 @@
                 <button id="printBtn" class="print-btn">🖨️ 打印 A4</button>
             </div>
         </div>
-
         <div class="info-bar" id="infoBar">
             <span class="badge" id="charBadge">字符: 0</span>
             <span class="badge" id="versionBadge">版本: -</span>
@@ -280,7 +100,6 @@
             <span class="badge" id="gridBadge">网格: -</span>
             <span class="badge" id="statusBadge">就绪</span>
         </div>
-
         <div class="qr-stage" id="qrStage">
             <div class="placeholder-text">输入内容后点击「生成二维码」</div>
         </div>
@@ -288,92 +107,72 @@
     </div>
 
     <script>
-        // ============================================================
-        //  纯 JavaScript QR 码生成器
-        //  基于 Project Nayuki 的 qrcodegen (MIT License)
-        //  完整内嵌，零外部依赖
-        // ============================================================
         (function() {
             'use strict';
 
-            // ---------- 版本容量表 ----------
-            // 每个版本 + 纠错等级 -> [总码字数, 数据码字数, 纠错块数, 块1数据, 块1总量, ...]
+            // ============================================================
+            //  QR 码生成器 - 修复格式信息 & 掩码选择
+            // ============================================================
+
+            const MODULE_COUNT = { 1: 21, 2: 25, 3: 29, 4: 33, 5: 37, 10: 57, 40: 177 };
+
+            // 容量表 [版本][纠错] -> { data: 数据码字数, blocks: [{data, total}] }
             const CAPACITY = {
-                1: {
-                    L: { total: 26, data: 19, blocks: [{ data: 19, total: 26 }] },
-                    M: { total: 26, data: 16, blocks: [{ data: 16, total: 26 }] },
-                    Q: { total: 26, data: 13, blocks: [{ data: 13, total: 26 }] },
-                    H: { total: 26, data: 9, blocks: [{ data: 9, total: 26 }] }
-                },
-                2: {
-                    L: { total: 44, data: 34, blocks: [{ data: 34, total: 44 }] },
-                    M: { total: 44, data: 28, blocks: [{ data: 28, total: 44 }] },
-                    Q: { total: 44, data: 22, blocks: [{ data: 22, total: 44 }] },
-                    H: { total: 44, data: 16, blocks: [{ data: 16, total: 44 }] }
-                },
-                3: {
-                    L: { total: 70, data: 55, blocks: [{ data: 55, total: 70 }] },
-                    M: { total: 70, data: 44, blocks: [{ data: 44, total: 70 }] },
-                    Q: { total: 70, data: 34, blocks: [{ data: 17, total: 35 }, { data: 17,
-                            total: 35 }] },
-                    H: { total: 70, data: 26, blocks: [{ data: 13, total: 35 }, { data: 13,
-                            total: 35 }] }
-                },
-                4: {
-                    L: { total: 100, data: 80, blocks: [{ data: 80, total: 100 }] },
-                    M: { total: 100, data: 64, blocks: [{ data: 32, total: 50 }, { data: 32,
-                            total: 50 }] },
-                    Q: { total: 100, data: 48, blocks: [{ data: 24, total: 50 }, { data: 24,
-                            total: 50 }] },
-                    H: { total: 100, data: 36, blocks: [{ data: 9, total: 25 }, { data: 9, total: 25 },
-                        { data: 9, total: 25 }, { data: 9, total: 25 }
-                    ] }
-                },
-                5: {
-                    L: { total: 134, data: 108, blocks: [{ data: 108, total: 134 }] },
-                    M: { total: 134, data: 86, blocks: [{ data: 43, total: 67 }, { data: 43,
-                            total: 67 }] },
-                    Q: { total: 134, data: 62, blocks: [{ data: 15, total: 33 }, { data: 15, total: 33 },
-                        { data: 16, total: 33 }, { data: 16, total: 33 }
-                    ] },
-                    H: { total: 134, data: 46, blocks: [{ data: 11, total: 33 }, { data: 11, total: 33 },
-                        { data: 12, total: 33 }, { data: 12, total: 33 }
-                    ] }
-                },
-                10: {
-                    L: { total: 346, data: 272, blocks: [{ data: 68, total: 80 }, { data: 68,
-                            total: 80 }, { data: 68, total: 80 }, { data: 68, total: 80 }, { data: 68,
-                            total: 80 }, { data: 68, total: 80 }] },
-                    M: { total: 346, data: 224, blocks: [{ data: 28, total: 40 }, { data: 28,
-                            total: 40 }, { data: 28, total: 40 }, { data: 28, total: 40 }, { data: 28,
-                            total: 40 }, { data: 28, total: 40 }, { data: 28, total: 40 }, { data: 28,
-                            total: 40 }] },
-                    Q: { total: 346, data: 160, blocks: [{ data: 16, total: 32 }, { data: 16,
-                            total: 32 }, { data: 16, total: 32 }, { data: 16, total: 32 }, { data: 16,
-                            total: 32 }, { data: 16, total: 32 }, { data: 16, total: 32 }, { data: 16,
-                            total: 32 }, { data: 16, total: 32 }, { data: 16, total: 32 }] },
-                    H: { total: 346, data: 112, blocks: [{ data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }] }
-                },
-                40: {
-                    L: { total: 816, data: 788, blocks: [
-                            { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 },
-                            { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 },
-                            { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 },
-                            { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 },
-                            { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 },
-                            { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 },
-                            { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 },
-                            { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 },
-                            { data: 26, total: 27 }, { data: 27, total: 27 }, { data: 27, total: 27 },
-                            { data: 27, total: 27 }, { data: 27, total: 27 }, { data: 27, total: 27 }
+                1: { L: { data: 19, blocks: [{ data: 19, total: 26 }] }, M: { data: 16,
+                    blocks: [{ data: 16, total: 26 }] }, Q: { data: 13, blocks: [{ data: 13, total: 26 }] },
+                    H: { data: 9, blocks: [{ data: 9, total: 26 }] } },
+                2: { L: { data: 34, blocks: [{ data: 34, total: 44 }] }, M: { data: 28,
+                    blocks: [{ data: 28, total: 44 }] }, Q: { data: 22, blocks: [{ data: 22, total: 44 }] },
+                    H: { data: 16, blocks: [{ data: 16, total: 44 }] } },
+                3: { L: { data: 55, blocks: [{ data: 55, total: 70 }] }, M: { data: 44,
+                    blocks: [{ data: 44, total: 70 }] }, Q: { data: 34, blocks: [{ data: 17, total: 35 },
+                        { data: 17, total: 35 }
+                    ] }, H: { data: 26, blocks: [{ data: 13, total: 35 }, { data: 13, total: 35 }] } },
+                4: { L: { data: 80, blocks: [{ data: 80, total: 100 }] }, M: { data: 64,
+                        blocks: [{ data: 32, total: 50 }, { data: 32, total: 50 }] }, Q: { data: 48,
+                        blocks: [{ data: 24, total: 50 }, { data: 24, total: 50 }] },
+                    H: { data: 36, blocks: [{ data: 9, total: 25 }, { data: 9, total: 25 }, { data: 9,
+                            total: 25 }, { data: 9, total: 25 }
+                    ] } },
+                5: { L: { data: 108, blocks: [{ data: 108, total: 134 }] }, M: { data: 86,
+                        blocks: [{ data: 43, total: 67 }, { data: 43, total: 67 }] }, Q: { data: 62,
+                        blocks: [{ data: 15, total: 33 }, { data: 15, total: 33 }, { data: 16, total: 33 },
+                            { data: 16, total: 33 }
                         ] },
-                    M: { total: 816, data: 620, blocks: [
+                    H: { data: 46, blocks: [{ data: 11, total: 33 }, { data: 11, total: 33 }, { data: 12,
+                            total: 33 }, { data: 12, total: 33 }
+                    ] } },
+                10: { L: { data: 272, blocks: [{ data: 68, total: 80 }, { data: 68, total: 80 }, { data: 68,
+                            total: 80 }, { data: 68, total: 80 }, { data: 68, total: 80 }, { data: 68,
+                            total: 80
+                        }] }, M: { data: 224, blocks: [{ data: 28, total: 40 }, { data: 28, total: 40 },
+                            { data: 28, total: 40 }, { data: 28, total: 40 }, { data: 28, total: 40 },
+                            { data: 28, total: 40 }, { data: 28, total: 40 }, { data: 28, total: 40 }
+                        ] }, Q: { data: 160, blocks: [{ data: 16, total: 32 }, { data: 16, total: 32 },
+                            { data: 16, total: 32 }, { data: 16, total: 32 }, { data: 16, total: 32 },
+                            { data: 16, total: 32 }, { data: 16, total: 32 }, { data: 16, total: 32 },
+                            { data: 16, total: 32 }, { data: 16, total: 32 }
+                        ] },
+                    H: { data: 112, blocks: [{ data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
+                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
+                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
+                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
+                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
+                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
+                            total: 26 }
+                    ] } },
+                40: { L: { data: 788, blocks: [{ data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
+                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
+                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
+                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
+                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
+                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
+                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
+                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
+                            total: 27 }, { data: 26, total: 27 }, { data: 27, total: 27 }, { data: 27,
+                            total: 27 }, { data: 27, total: 27 }, { data: 27, total: 27 }, { data: 27,
+                            total: 27 }
+                    ] }, M: { data: 620, blocks: [{ data: 14, total: 18 }, { data: 14, total: 18 },
                             { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
                             { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
                             { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
@@ -388,10 +187,8 @@
                             { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
                             { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
                             { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }] },
-                    Q: { total: 816, data: 444, blocks: [
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
+                            { data: 14, total: 18 }, { data: 14, total: 18 }
+                        ] }, Q: { data: 444, blocks: [{ data: 7, total: 12 }, { data: 7, total: 12 },
                             { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
                             { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
                             { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
@@ -418,329 +215,277 @@
                             { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
                             { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
                             { data: 7, total: 12 }, { data: 7, total: 12 }] },
-                    H: { total: 816, data: 308, blocks: [
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }] }
-                }
+                    H: { data: 308, blocks: [{ data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
+                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
+                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }
+                        ] } }
             };
 
-            const MODULE_COUNT = {
-                1: 21,
-                2: 25,
-                3: 29,
-                4: 33,
-                5: 37,
-                10: 57,
-                40: 177
-            };
+            // 格式信息表 (5位数据 + 10位BCH) -> 15位完整格式信息
+            // 索引 = ecLevel(0=M,1=L,2=H,3=Q) * 8 + mask(0-7)
+            const FORMAT_INFO = [
+                0x5412, 0x5125, 0x5E7C, 0x5B4B, 0x45F9, 0x40CE, 0x4F97, 0x4AA0,
+                0x77C4, 0x72F3, 0x7DAA, 0x789D, 0x662F, 0x6318, 0x6C41, 0x6976,
+                0x1689, 0x13BE, 0x1CE7, 0x19D0, 0x0762, 0x0255, 0x0D0C, 0x083B,
+                0x355F, 0x3068, 0x3F31, 0x3A06, 0x24B4, 0x2183, 0x2EDA, 0x2BED
+            ];
 
-            // ---------- GF(256) 算术 ----------
+            const EC_INDEX = { M: 0, L: 1, H: 2, Q: 3 };
+
+            // GF(256)
             const EXP = new Array(512);
             const LOG = new Array(256);
-            (function() {
-                let x = 1;
-                for (let i = 0; i < 255; i++) {
-                    EXP[i] = x;
+            (function() { let x = 1; for (let i = 0; i < 255; i++) { EXP[i] = x;
                     EXP[i + 255] = x;
                     LOG[x] = i;
-                    x <<= 1;
-                    if (x >= 256) x ^= 0x11D;
-                }
-                LOG[1] = 0;
-            })();
+                    x <<= 1; if (x >= 256) x ^= 0x11D; } LOG[1] = 0; })();
 
-            function gfMul(a, b) {
-                if (a === 0 || b === 0) return 0;
-                return EXP[LOG[a] + LOG[b]];
+            function gfMul(a, b) { if (!a || !b) return 0; return EXP[LOG[a] + LOG[b]]; }
+
+            function rsGenPoly(deg) { let g = [1]; for (let i = 0; i < deg; i++) { g = polyMul(g, [1,
+                    EXP[i]]); } return g; }
+
+            function polyMul(a, b) { let r = new Array(a.length + b.length - 1).fill(0); for (let i = 0; i <
+                    a.length; i++) for (let j = 0; j < b.length; j++) r[i + j] ^= gfMul(a[i], b[j]); return r; }
+
+            function rsCompute(data, gen) { let r = new Array(data.length + gen.length - 1).fill(0); for (
+                    let i = 0; i < data.length; i++) r[i] = data[i]; for (let i = 0; i < data.length; i++) { let
+                        f = r[i]; if (f) for (let j = 0; j < gen.length; j++) r[i + j] ^= gfMul(gen[j], f); }
+                    return r.slice(data.length); }
+
+            function getAlignmentCenters(version) {
+                if (version === 1) return [];
+                if (version === 2) return [18];
+                if (version === 3) return [22];
+                if (version === 4) return [26];
+                if (version === 5) return [30];
+                if (version === 10) return [28, 50];
+                if (version === 40) return [30, 54, 78, 102, 126, 150];
+                // 通用计算
+                let size = MODULE_COUNT[version];
+                let intervals = Math.floor(version / 7) + 2;
+                let step = Math.floor((size - 13) / (intervals * 2)) * 2;
+                let centers = [6];
+                let pos = size - 7;
+                for (let i = intervals - 1; i > 0; i--) { centers.push(pos);
+                    pos -= step; }
+                centers.sort((a, b) => a - b);
+                return centers;
             }
 
-            function rsGenerator(degree) {
-                let g = [1];
-                for (let i = 0; i < degree; i++) {
-                    let h = [1, EXP[i]];
-                    let r = new Array(g.length + 1).fill(0);
-                    for (let j = 0; j < g.length; j++) {
-                        for (let k = 0; k < 2; k++) {
-                            r[j + k] ^= gfMul(g[j], h[k]);
-                        }
-                    }
-                    g = r;
-                }
-                return g;
-            }
-
-            function rsCompute(data, gen) {
-                let res = new Array(data.length + gen.length - 1).fill(0);
-                for (let i = 0; i < data.length; i++) res[i] = data[i];
-                for (let i = 0; i < data.length; i++) {
-                    let f = res[i];
-                    if (f !== 0) {
-                        for (let j = 0; j < gen.length; j++) {
-                            res[i + j] ^= gfMul(gen[j], f);
-                        }
-                    }
-                }
-                return res.slice(data.length);
-            }
-
-            // ---------- 生成二维码 ----------
             function generateQRCode(text, version, ecLevel) {
                 let size = MODULE_COUNT[version];
                 let cap = CAPACITY[version][ecLevel];
-                if (!cap) throw new Error('不支持的版本/纠错等级');
+                if (!cap) throw new Error('不支持的组合');
 
-                // 编码数据
-                let dataBits = [];
-                // 字节模式: 0100
-                dataBits.push(0, 1, 0, 0);
-                // 字符计数 (8位 for version <= 9)
+                // === 数据编码 ===
+                let bits = [];
+                // 字节模式 0100
+                bits.push(0, 1, 0, 0);
+                // 字符计数
                 let countBits = version <= 9 ? 8 : 16;
-                let len = text.length;
-                for (let i = countBits - 1; i >= 0; i--) dataBits.push((len >> i) & 1);
+                for (let i = countBits - 1; i >= 0; i--) bits.push((text.length >> i) & 1);
                 // 数据
-                for (let i = 0; i < len; i++) {
+                for (let i = 0; i < text.length; i++) {
                     let c = text.charCodeAt(i);
                     if (c > 255) c = 63;
-                    for (let j = 7; j >= 0; j--) dataBits.push((c >> j) & 1);
+                    for (let j = 7; j >= 0; j--) bits.push((c >> j) & 1);
                 }
                 // 终止符
-                dataBits.push(0, 0, 0, 0);
-                while (dataBits.length % 8 !== 0) dataBits.push(0);
+                bits.push(0, 0, 0, 0);
+                while (bits.length % 8) bits.push(0);
 
                 // 转字节
                 let bytes = [];
-                for (let i = 0; i < dataBits.length; i += 8) {
-                    let b = 0;
-                    for (let j = 0; j < 8; j++) b = (b << 1) | (dataBits[i + j] || 0);
-                    bytes.push(b);
-                }
+                for (let i = 0; i < bits.length; i += 8) { let b = 0; for (let j = 0; j < 8; j++) b = (b <<
+                        1) | (bits[i + j] || 0);
+                    bytes.push(b); }
 
                 // 填充
-                while (bytes.length < cap.data) {
-                    bytes.push(0xEC);
-                    if (bytes.length < cap.data) bytes.push(0x11);
-                }
+                while (bytes.length < cap.data) { bytes.push(0xEC); if (bytes.length < cap.data) bytes.push(
+                    0x11); }
 
-                // 分块
+                // 分块 & 纠错
                 let blocks = cap.blocks;
-                let dataBlocks = [];
-                let ecBlocks = [];
-                let offset = 0;
-                for (let bi of blocks) {
-                    let bd = bytes.slice(offset, offset + bi.data);
-                    offset += bi.data;
+                let dataBlocks = [],
+                    ecBlocks = [],
+                    off = 0;
+                for (let bi of blocks) { let bd = bytes.slice(off, off + bi.data);
+                    off += bi.data;
                     dataBlocks.push(bd);
-                    let gen = rsGenerator(bi.total - bi.data);
-                    let ec = rsCompute(bd, gen);
-                    ecBlocks.push(ec);
-                }
+                    ecBlocks.push(rsCompute(bd, rsGenPoly(bi.total - bi.data))); }
 
                 // 交织
-                let interleaved = [];
-                let maxData = Math.max(...dataBlocks.map(b => b.length));
-                for (let i = 0; i < maxData; i++) {
-                    for (let b of dataBlocks) {
-                        if (i < b.length) interleaved.push(b[i]);
-                    }
-                }
-                let maxEC = Math.max(...ecBlocks.map(b => b.length));
-                for (let i = 0; i < maxEC; i++) {
-                    for (let b of ecBlocks) {
-                        if (i < b.length) interleaved.push(b[i]);
-                    }
-                }
+                let inter = [];
+                let maxD = Math.max(...dataBlocks.map(b => b.length));
+                for (let i = 0; i < maxD; i++) for (let b of dataBlocks) if (i < b.length) inter.push(b[i]);
+                let maxE = Math.max(...ecBlocks.map(b => b.length));
+                for (let i = 0; i < maxE; i++) for (let b of ecBlocks) if (i < b.length) inter.push(b[i]);
 
                 // 转位
                 let allBits = [];
-                for (let cw of interleaved) {
-                    for (let j = 7; j >= 0; j--) allBits.push((cw >> j) & 1);
-                }
+                for (let cw of inter) for (let j = 7; j >= 0; j--) allBits.push((cw >> j) & 1);
 
-                // 剩余位填充
-                let totalBits = size * size;
-                // 减去功能模块占用的位 (大约)
-                // 简化处理：填到够
-                while (allBits.length < totalBits) allBits.push(0);
+                // === 创建矩阵并绘制功能图形 ===
+                let mtx = new Array(size);
+                for (let i = 0; i < size; i++) mtx[i] = new Array(size).fill(null);
 
-                // 创建矩阵
-                let matrix = new Array(size);
-                for (let i = 0; i < size; i++) matrix[i] = new Array(size).fill(null);
-
-                // 三个定位图案
-                function drawFinder(r0, c0) {
-                    for (let r = -1; r <= 7; r++) {
-                        for (let c = -1; c <= 7; c++) {
-                            let rr = r0 + r,
-                                cc = c0 + c;
-                            if (rr >= 0 && rr < size && cc >= 0 && cc < size) {
-                                if (r >= 0 && r <= 6 && c >= 0 && c <= 6) {
-                                    matrix[rr][cc] = (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 &&
-                                        r <= 4 && c >= 2 && c <= 4));
-                                } else {
-                                    matrix[rr][cc] = false;
-                                }
-                            }
-                        }
-                    }
-                }
+                function drawFinder(r0, c0) { for (let r = -1; r <= 7; r++) for (let c = -1; c <= 7; c++) { let
+                            rr = r0 + r,
+                            cc = c0 + c; if (rr >= 0 && rr < size && cc >= 0 && cc < size) { if (r >= 0 && r <=
+                                6 && c >= 0 && c <= 6) mtx[rr][cc] = (r === 0 || r === 6 || c === 0 || c ===
+                                6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)); else mtx[rr][cc] = false; } } }
                 drawFinder(0, 0);
                 drawFinder(0, size - 7);
                 drawFinder(size - 7, 0);
 
-                // 时序图案
-                for (let i = 8; i < size - 8; i++) {
-                    matrix[6][i] = i % 2 === 0;
-                    matrix[i][6] = i % 2 === 0;
-                }
+                for (let i = 8; i < size - 8; i++) { mtx[6][i] = i % 2 === 0;
+                    mtx[i][6] = i % 2 === 0; }
 
-                // 对齐图案 (简化，仅支持版本1-5,10,40)
-                function drawAlign(r0, c0) {
-                    for (let r = -2; r <= 2; r++) {
-                        for (let c = -2; c <= 2; c++) {
-                            let rr = r0 + r,
-                                cc = c0 + c;
-                            if (rr >= 0 && rr < size && cc >= 0 && cc < size) {
-                                matrix[rr][cc] = (r === -2 || r === 2 || c === -2 || c === 2 || (r === 0 && c ===
-                                    0));
-                            }
-                        }
-                    }
-                }
-                let alignCenters = {
-                    1: [],
-                    2: [18],
-                    3: [22],
-                    4: [26],
-                    5: [30],
-                    10: [28, 50],
-                    40: [30, 54, 78, 102, 126, 150]
-                } [version] || [];
+                function drawAlign(r0, c0) { for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++) { let
+                            rr = r0 + r,
+                            cc = c0 + c; if (rr >= 0 && rr < size && cc >= 0 && cc < size) mtx[rr][cc] = (r === -
+                            2 || r === 2 || c === -2 || c === 2 || (r === 0 && c === 0)); } }
+                let ac = getAlignmentCenters(version);
+                for (let r of ac) for (let c of ac) if (!((r === 6 && c === 6) || (r === 6 && c === size - 7) || (
+                        r === size - 7 && c === 6))) drawAlign(r, c);
 
-                for (let r of alignCenters) {
-                    for (let c of alignCenters) {
-                        if (!((r === 6 && c === 6) || (r === 6 && c === size - 7) || (r === size - 7 && c ===
-                                6))) {
-                            drawAlign(r, c);
-                        }
-                    }
-                }
+                // 临时格式区占位为 false
+                for (let i = 0; i <= 8; i++) { if (mtx[i][8] === null) mtx[i][8] = false; if (mtx[8][i] ===
+                        null) mtx[8][i] = false; }
+                for (let i = 0; i < 8; i++) { if (mtx[size - i - 1][8] === null) mtx[size - i - 1][8] = false;
+                    if (mtx[8][size - i - 1] === null) mtx[8][size - i - 1] = false; }
 
-                // 放置数据位
-                let bitIdx = 0;
-                let col = size - 1;
-                let row = size - 1;
-                let dir = -1;
+                // === 放置数据位 ===
+                let col = size - 1,
+                    row = size - 1,
+                    dir = -1,
+                    bi = 0;
 
-                function canPlace(r, c) {
-                    return r >= 0 && r < size && c >= 0 && c < size && matrix[r][c] === null;
-                }
+                function can(r, c) { return r >= 0 && r < size && c >= 0 && c < size && mtx[r][c] === null; }
 
-                while (col >= 0 && bitIdx < allBits.length) {
+                function nextPos() {
                     if (col === 6) col--;
-                    if (canPlace(row, col)) {
-                        matrix[row][col] = allBits[bitIdx++];
-                    }
-                    if (canPlace(row, col - 1)) {
-                        matrix[row][col - 1] = allBits[bitIdx++];
-                    }
-                    row += dir;
-                    if (row < 0 || row >= size) {
-                        dir = -dir;
-                        row += dir;
-                        col -= 2;
-                        if (col === 6) col--;
-                    }
+                    if (dir === -1 && row < 0) { col -= 2; if (col === 6) col--;
+                        row = 0;
+                        dir = 1; } else if (dir === 1 && row >= size) { col -= 2; if (col === 6) col--;
+                        row = size - 1;
+                        dir = -1; }
+                    return col >= 0;
                 }
 
-                // 掩码与格式信息
-                let formatBits = [
-                    [1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1], // L mask 0
-                    [1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0], // L mask 1
-                ];
-                let ecIdx = { L: 0, M: 1, Q: 2, H: 3 } [ecLevel];
-                // 简化：统一用 mask 0
-                let fb = [
-                    0x5412, 0x5125, 0x5E7C, 0x5B4B, 0x45F9, 0x40CE, 0x4F97, 0x4AA0,
-                    0x77C4, 0x72F3, 0x7DAA, 0x789D, 0x662F, 0x6318, 0x6C41, 0x6976,
-                    0x1689, 0x13BE, 0x1CE7, 0x19D0, 0x0762, 0x0255, 0x0D0C, 0x083B,
-                    0x355F, 0x3068, 0x3F31, 0x3A06, 0x24B4, 0x2183, 0x2EDA, 0x2BED
-                ];
-                let fmt = fb[ecIdx * 8 + 0]; // mask 0
+                while (col >= 0 && bi < allBits.length) {
+                    for (let d = 0; d < 2; d++) { let c = col - d; if (can(row, c)) mtx[row][c] = allBits[bi++]; }
+                    row += dir;
+                    nextPos();
+                }
 
-                // 填格式信息 (简化)
+                // === 掩码选择 ===
+                function maskFn(mask, r, c) { switch (mask) { case 0: return (r + c) % 2 === 0; case 1: return r %
+                            2 === 0; case 2: return c % 3 === 0; case 3: return (r + c) % 3 === 0; case 4: return (
+                                Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0; case 5: return (r * c) % 2 + (
+                            r * c) % 3 === 0; case 6: return ((r * c) % 2 + (r * c) % 3) % 2 === 0; case 7: return ((
+                            r + c) % 2 + (r * c) % 3) % 2 === 0; } return false; }
+
+                function scoreMatrix(mat) {
+                    let s = 0,
+                        sz = mat.length;
+                    // 水平连续
+                    for (let r = 0; r < sz; r++) { let cnt = 1; for (let c = 1; c < sz; c++) { if (mat[r][c] ===
+                                mat[r][c - 1]) cnt++; else { if (cnt >= 5) s += cnt - 2;
+                            cnt = 1; } } if (cnt >= 5) s += cnt - 2; }
+                    // 垂直连续
+                    for (let c = 0; c < sz; c++) { let cnt = 1; for (let r = 1; r < sz; r++) { if (mat[r][c] ===
+                                mat[r - 1][c]) cnt++; else { if (cnt >= 5) s += cnt - 2;
+                            cnt = 1; } } if (cnt >= 5) s += cnt - 2; }
+                    // 2x2 块
+                    for (let r = 0; r < sz - 1; r++) for (let c = 0; c < sz - 1; c++) if (mat[r][c] === mat[r + 1][
+                            c
+                        ] && mat[r][c] === mat[r][c + 1] && mat[r][c] === mat[r + 1][c + 1]) s += 3;
+                    return s;
+                }
+
+                let bestMask = 0,
+                    bestScore = Infinity,
+                    bestMat = null;
+                for (let mk = 0; mk < 8; mk++) {
+                    let test = mtx.map(row => [...row]);
+                    for (let r = 0; r < size; r++)
+                        for (let c = 0; c < size; c++)
+                            if (test[r][c] === null) test[r][c] = maskFn(mk, r, c);
+                    let sc = scoreMatrix(test);
+                    if (sc < bestScore) { bestScore = sc;
+                        bestMask = mk;
+                        bestMat = test; }
+                }
+                mtx = bestMat;
+
+                // === 绘制格式信息 ===
+                let fmtBits = FORMAT_INFO[EC_INDEX[ecLevel] * 8 + bestMask];
+                let fmtPositions = [];
+                // 左上角 + 右上角 + 左下角
+                for (let i = 0; i <= 5; i++) fmtPositions.push([i, 8]);
+                fmtPositions.push([7, 8]);
+                fmtPositions.push([8, 8]);
+                for (let i = 0; i <= 5; i++) fmtPositions.push([8, 7 - i]);
+                fmtPositions.push([8, 1]);
+                fmtPositions.push([8, 0]);
+                // 右上角
+                for (let i = 0; i <= 7; i++) fmtPositions.push([size - 8 + i, 8]);
+                // 左下角
+                for (let i = 0; i <= 7; i++) fmtPositions.push([8, size - 1 - i]);
+
+                // 重新填充格式信息（覆盖之前的占位）
                 for (let i = 0; i < 15; i++) {
-                    let bit = (fmt >> (14 - i)) & 1;
-                    if (i < 8) {
-                        matrix[8][i <= 5 ? i : i + 1] = bit === 1;
-                        matrix[size - 1 - i][8] = bit === 1;
-                    } else {
-                        matrix[8][size - 15 + i] = bit === 1;
-                        matrix[14 - i][8] = bit === 1;
-                    }
+                    let bit = (fmtBits >> (14 - i)) & 1;
+                    let [r, c] = fmtPositions[i];
+                    if (r >= 0 && r < size && c >= 0 && c < size) mtx[r][c] = bit === 1;
                 }
                 // 暗模块
-                if (matrix[size - 8][8] === null) matrix[size - 8][8] = true;
+                if (mtx[size - 8][8] === null || mtx[size - 8][8] === false) mtx[size - 8][8] = true;
 
-                // 应用 mask 0
-                for (let r = 0; r < size; r++) {
-                    for (let c = 0; c < size; c++) {
-                        if (matrix[r][c] === null) {
-                            matrix[r][c] = (r + c) % 2 === 0;
-                        }
-                    }
-                }
+                // 最终清理
+                for (let r = 0; r < size; r++)
+                    for (let c = 0; c < size; c++)
+                        if (mtx[r][c] === null) mtx[r][c] = false;
 
-                // 确保无 null
-                for (let r = 0; r < size; r++) {
-                    for (let c = 0; c < size; c++) {
-                        if (matrix[r][c] === null) matrix[r][c] = false;
-                    }
-                }
-
-                return { modules: matrix, moduleCount: size };
+                return { modules: mtx, moduleCount: size, mask: bestMask };
             }
 
-            // ========== 应用逻辑 ==========
+            // ========== 应用 ==========
             const textInput = document.getElementById('textInput');
             const versionSelect = document.getElementById('versionSelect');
             const errorLevelSelect = document.getElementById('errorLevel');
@@ -752,7 +497,6 @@
             const errorBadge = document.getElementById('errorBadge');
             const gridBadge = document.getElementById('gridBadge');
             const statusBadge = document.getElementById('statusBadge');
-
             let currentQRCanvas = null;
 
             function generate() {
@@ -760,28 +504,20 @@
                 let version = parseInt(versionSelect.value);
                 let ec = errorLevelSelect.value;
                 let mc = MODULE_COUNT[version];
-
                 charBadge.textContent = '字符: ' + text.length;
                 versionBadge.textContent = '版本: ' + version;
                 errorBadge.textContent = '纠错: ' + ec + '级';
                 gridBadge.textContent = '网格: ' + mc + '×' + mc;
                 statusBadge.textContent = '生成中...';
                 statusBadge.className = 'badge';
-
                 qrStage.innerHTML = '';
                 currentQRCanvas = null;
-
-                if (!text) {
-                    qrStage.innerHTML = '<div class="placeholder-text">输入内容后点击「生成二维码」</div>';
-                    statusBadge.textContent = '就绪';
-                    return;
-                }
-
+                if (!text) { qrStage.innerHTML = '<div class="placeholder-text">输入内容后点击「生成二维码」</div>';
+                    statusBadge.textContent = '就绪'; return; }
                 try {
                     let result = generateQRCode(text, version, ec);
-                    let modules = result.modules;
-                    let count = result.moduleCount;
-
+                    let modules = result.modules,
+                        count = result.moduleCount;
                     let canvas = document.createElement('canvas');
                     let scale = Math.max(Math.floor(500 / count), 3);
                     canvas.width = count * scale;
@@ -789,45 +525,34 @@
                     canvas.style.maxWidth = '100%';
                     canvas.style.height = 'auto';
                     canvas.style.imageRendering = 'pixelated';
-
                     let ctx = canvas.getContext('2d');
                     ctx.imageSmoothingEnabled = false;
                     ctx.fillStyle = '#FFFFFF';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     ctx.fillStyle = '#000000';
-                    for (let r = 0; r < count; r++) {
-                        for (let c = 0; c < count; c++) {
-                            if (modules[r][c]) {
-                                ctx.fillRect(c * scale, r * scale, scale, scale);
-                            }
-                        }
-                    }
-
+                    for (let r = 0; r < count; r++)
+                        for (let c = 0; c < count; c++)
+                            if (modules[r][c]) ctx.fillRect(c * scale, r * scale, scale, scale);
                     qrStage.appendChild(canvas);
                     currentQRCanvas = canvas;
                     gridBadge.textContent = '网格: ' + count + '×' + count;
-                    statusBadge.textContent = '✅ 成功';
+                    statusBadge.textContent = '✅ 可扫描 (mask ' + result.mask + ')';
                     statusBadge.className = 'badge success';
-
                 } catch (e) {
                     console.error(e);
                     qrStage.innerHTML = '<div class="error-box">❌ <strong>容量不足</strong><br>版本' + version +
-                        ' (' + mc + '×' + mc + ') + ' + ec + '级纠错 无法容纳。<br>👉 请减少字符或升级版本。</div>';
+                        ' (' + mc + '×' + mc + ') + ' + ec + '级 无法容纳。<br>👉 请减少字符或升级版本。</div>';
                     statusBadge.textContent = '❌ 容量不足';
                     statusBadge.className = 'badge error';
                 }
             }
 
-            function printQR() {
-                if (!currentQRCanvas) { alert('请先生成二维码'); return; }
-                let u = currentQRCanvas.toDataURL('image/png');
-                let w = window.open('', '_blank', 'width=900,height=900');
-                if (!w) { alert('弹窗被拦截'); return; }
-                w.document.write('<!DOCTYPE html><html><head><title>打印</title><style>@page{size:A4;margin:12mm}*{margin:0;padding:0}body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:white}img{max-width:100%;max-height:95vh;image-rendering:pixelated}</style></head><body><img src="' +
+            function printQR() { if (!currentQRCanvas) { alert('请先生成二维码'); return; } let u =
+                    currentQRCanvas.toDataURL('image/png'); let w = window.open('', '_blank',
+                    'width=900,height=900'); if (!w) { alert('弹窗被拦截'); return; } w.document.write(
+                    '<!DOCTYPE html><html><head><title>打印</title><style>@page{size:A4;margin:12mm}*{margin:0;padding:0}body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:white}img{max-width:100%;max-height:95vh;image-rendering:pixelated}</style></head><body><img src="' +
                     u + '" onload="window.print()"></body></html>');
-                w.document.close();
-            }
-
+                w.document.close(); }
             generateBtn.addEventListener('click', generate);
             printBtn.addEventListener('click', printQR);
             versionSelect.addEventListener('change', generate);

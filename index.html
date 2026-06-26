@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR码·容错实验室 - 修复扫描版</title>
+    <title>QR码·容错实验室 - 可扫描版</title>
     <style>
         :root { --bg: #f0f2f5; --card: #ffffff; --text: #1a1a2e; --sub: #64748b; --accent: #3b82f6;
             --border: #e2e8f0; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); font-family: 'Segoe UI', system-ui, sans-serif; display: flex;
-            justify-content: center; align-items: flex-start; min-height: 100vh; padding: 24px; }
+        body { background: var(--bg); font-family: system-ui, sans-serif; display: flex; justify-content: center;
+            align-items: flex-start; min-height: 100vh; padding: 24px; }
         .container { max-width: 860px; width: 100%; background: var(--card); border-radius: 24px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08); padding: 32px; }
         h1 { font-size: 1.8rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 4px; }
@@ -18,8 +18,7 @@
         .input-group label { font-weight: 600; font-size: 0.8rem; color: #334155; display: block;
             margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
         textarea { width: 100%; padding: 14px; font-size: 0.95rem; border: 2px solid var(--border);
-            border-radius: 12px; resize: vertical; font-family: 'Courier New', monospace; background: #fafbfc;
-            line-height: 1.5; }
+            border-radius: 12px; resize: vertical; font-family: 'Courier New', monospace; background: #fafbfc; }
         textarea:focus { outline: none; border-color: var(--accent); background: white;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
         .controls { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; background: #f8fafc;
@@ -30,43 +29,37 @@
         select, button { width: 100%; padding: 10px 14px; border-radius: 10px; border: 2px solid var(--border);
             font-size: 0.9rem; font-weight: 500; background: white; cursor: pointer; font-family: inherit; }
         select:focus { outline: none; border-color: var(--accent); }
-        button { background: #1e293b; color: white; border: none; font-weight: 600; white-space: nowrap;
-            display: flex; align-items: center; justify-content: center; gap: 6px; }
+        button { background: #1e293b; color: white; border: none; font-weight: 600; display: flex;
+            align-items: center; justify-content: center; gap: 6px; }
         button:hover { background: #334155; }
         button.print-btn { background: #2563eb; }
-        button.print-btn:hover { background: #1d4ed8; }
         .info-bar { background: #f1f5f9; padding: 12px 18px; border-radius: 12px; display: flex;
-            flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 24px; font-size: 0.85rem;
-            color: #1e293b; }
-        .badge { background: white; padding: 5px 14px; border-radius: 20px; font-weight: 600;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); }
+            flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 24px; font-size: 0.85rem; }
+        .badge { background: white; padding: 5px 14px; border-radius: 20px; font-weight: 600; }
         .badge.success { background: #dcfce7; color: #16a34a; }
         .badge.error { background: #fef2f2; color: #dc2626; }
         .qr-stage { background: white; border: 2px dashed var(--border); border-radius: 20px; padding: 28px;
             display: flex; justify-content: center; align-items: center; min-height: 240px; margin-bottom: 12px; }
-        .qr-stage canvas { display: block; max-width: 100%; height: auto; image-rendering: pixelated;
-            image-rendering: crisp-edges; border-radius: 4px; }
+        .qr-stage canvas { display: block; max-width: 100%; height: auto; image-rendering: pixelated; }
         .placeholder-text { color: #94a3b8; font-size: 14px; text-align: center; }
-        .error-box { color: #dc2626; background: #fef2f2; padding: 16px; border-radius: 8px; text-align: center;
-            font-size: 14px; line-height: 1.6; }
+        .error-box { color: #dc2626; background: #fef2f2; padding: 16px; border-radius: 8px; text-align: center; }
         .legend { font-size: 0.8rem; color: var(--sub); text-align: center; }
-        @media print { body { background: white; padding: 0; } .container { box-shadow: none;
-            border-radius: 0; padding: 0; max-width: 100%; } .controls, .input-group, .info-bar, .legend,
-            h1, .subtitle, button { display: none !important; } .qr-stage { border: none; padding: 0;
-            margin: 0; } .qr-stage canvas { width: 100%; max-width: 100%; page-break-inside: avoid; } }
+        @media print { body { background: white; padding: 0; } .container { box-shadow: none; border-radius: 0;
+            padding: 0; max-width: 100%; } .controls, .input-group, .info-bar, .legend, h1, .subtitle, button {
+            display: none !important; } .qr-stage { border: none; padding: 0; } .qr-stage canvas { width: 100%; } }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🔬 QR 容错实验室</h1>
-        <p class="subtitle">版本(尺寸) · 纠错等级 · 字符计数 · 打印 A4 · 可扫描</p>
+        <h1>QR 容错实验室</h1>
+        <p class="subtitle">版本 · 纠错等级 · 字符计数 · 打印 A4 · 可扫描</p>
         <div class="input-group">
-            <label>📝 输入文字 / 数字 / 符号</label>
-            <textarea id="textInput" rows="3" placeholder="输入任意内容...">https://hl-steel-industries-sdn-bhd.github.io/Cyril-ZYLfM3Bv859aDRcQ/</textarea>
+            <label>输入文字 / 数字 / 符号</label>
+            <textarea id="textInput" rows="3">https://hl-steel-industries-sdn-bhd.github.io/Cyril-ZYLfM3Bv859aDRcQ/</textarea>
         </div>
         <div class="controls">
             <div class="control-item">
-                <label>📐 版本</label>
+                <label>版本</label>
                 <select id="versionSelect">
                     <option value="1">版本1 (21×21)</option>
                     <option value="2">版本2 (25×25)</option>
@@ -78,7 +71,7 @@
                 </select>
             </div>
             <div class="control-item">
-                <label>🛡️ 纠错等级</label>
+                <label>纠错等级</label>
                 <select id="errorLevel">
                     <option value="L">L (≈7%)</option>
                     <option value="M">M (≈15%)</option>
@@ -86,181 +79,93 @@
                     <option value="H" selected>H (≈30%)</option>
                 </select>
             </div>
-            <div class="control-item" style="flex:0 0 auto;">
-                <button id="generateBtn">✨ 生成二维码</button>
-            </div>
-            <div class="control-item" style="flex:0 0 auto;">
-                <button id="printBtn" class="print-btn">🖨️ 打印 A4</button>
-            </div>
+            <div class="control-item" style="flex:0 0 auto;"><button id="generateBtn">✨ 生成</button></div>
+            <div class="control-item" style="flex:0 0 auto;"><button id="printBtn" class="print-btn">🖨️ 打印</button></div>
         </div>
-        <div class="info-bar" id="infoBar">
+        <div class="info-bar">
             <span class="badge" id="charBadge">字符: 0</span>
             <span class="badge" id="versionBadge">版本: -</span>
             <span class="badge" id="errorBadge">纠错: -</span>
             <span class="badge" id="gridBadge">网格: -</span>
             <span class="badge" id="statusBadge">就绪</span>
         </div>
-        <div class="qr-stage" id="qrStage">
-            <div class="placeholder-text">输入内容后点击「生成二维码」</div>
-        </div>
-        <p class="legend">💡 三个角落的「回」字是定位骨架 · 黑白模块 = 数据 + 纠错码的交织呈现</p>
+        <div class="qr-stage" id="qrStage"><div class="placeholder-text">点击「生成」</div></div>
+        <p class="legend">安静区(白边)已内嵌 · 手机可扫</p>
     </div>
 
     <script>
         (function() {
             'use strict';
 
-            // ============================================================
-            //  QR 码生成器 - 修复格式信息 & 掩码选择
-            // ============================================================
-
+            // ========== QR 码标准常量 ==========
             const MODULE_COUNT = { 1: 21, 2: 25, 3: 29, 4: 33, 5: 37, 10: 57, 40: 177 };
 
-            // 容量表 [版本][纠错] -> { data: 数据码字数, blocks: [{data, total}] }
-            const CAPACITY = {
-                1: { L: { data: 19, blocks: [{ data: 19, total: 26 }] }, M: { data: 16,
-                    blocks: [{ data: 16, total: 26 }] }, Q: { data: 13, blocks: [{ data: 13, total: 26 }] },
-                    H: { data: 9, blocks: [{ data: 9, total: 26 }] } },
-                2: { L: { data: 34, blocks: [{ data: 34, total: 44 }] }, M: { data: 28,
-                    blocks: [{ data: 28, total: 44 }] }, Q: { data: 22, blocks: [{ data: 22, total: 44 }] },
-                    H: { data: 16, blocks: [{ data: 16, total: 44 }] } },
-                3: { L: { data: 55, blocks: [{ data: 55, total: 70 }] }, M: { data: 44,
-                    blocks: [{ data: 44, total: 70 }] }, Q: { data: 34, blocks: [{ data: 17, total: 35 },
-                        { data: 17, total: 35 }
-                    ] }, H: { data: 26, blocks: [{ data: 13, total: 35 }, { data: 13, total: 35 }] } },
-                4: { L: { data: 80, blocks: [{ data: 80, total: 100 }] }, M: { data: 64,
-                        blocks: [{ data: 32, total: 50 }, { data: 32, total: 50 }] }, Q: { data: 48,
-                        blocks: [{ data: 24, total: 50 }, { data: 24, total: 50 }] },
-                    H: { data: 36, blocks: [{ data: 9, total: 25 }, { data: 9, total: 25 }, { data: 9,
-                            total: 25 }, { data: 9, total: 25 }
-                    ] } },
-                5: { L: { data: 108, blocks: [{ data: 108, total: 134 }] }, M: { data: 86,
-                        blocks: [{ data: 43, total: 67 }, { data: 43, total: 67 }] }, Q: { data: 62,
-                        blocks: [{ data: 15, total: 33 }, { data: 15, total: 33 }, { data: 16, total: 33 },
-                            { data: 16, total: 33 }
-                        ] },
-                    H: { data: 46, blocks: [{ data: 11, total: 33 }, { data: 11, total: 33 }, { data: 12,
-                            total: 33 }, { data: 12, total: 33 }
-                    ] } },
-                10: { L: { data: 272, blocks: [{ data: 68, total: 80 }, { data: 68, total: 80 }, { data: 68,
-                            total: 80 }, { data: 68, total: 80 }, { data: 68, total: 80 }, { data: 68,
-                            total: 80
-                        }] }, M: { data: 224, blocks: [{ data: 28, total: 40 }, { data: 28, total: 40 },
-                            { data: 28, total: 40 }, { data: 28, total: 40 }, { data: 28, total: 40 },
-                            { data: 28, total: 40 }, { data: 28, total: 40 }, { data: 28, total: 40 }
-                        ] }, Q: { data: 160, blocks: [{ data: 16, total: 32 }, { data: 16, total: 32 },
-                            { data: 16, total: 32 }, { data: 16, total: 32 }, { data: 16, total: 32 },
-                            { data: 16, total: 32 }, { data: 16, total: 32 }, { data: 16, total: 32 },
-                            { data: 16, total: 32 }, { data: 16, total: 32 }
-                        ] },
-                    H: { data: 112, blocks: [{ data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }, { data: 14, total: 26 }, { data: 14, total: 26 }, { data: 14,
-                            total: 26 }
-                    ] } },
-                40: { L: { data: 788, blocks: [{ data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
-                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
-                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
-                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
-                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
-                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
-                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
-                            total: 27 }, { data: 26, total: 27 }, { data: 26, total: 27 }, { data: 26,
-                            total: 27 }, { data: 26, total: 27 }, { data: 27, total: 27 }, { data: 27,
-                            total: 27 }, { data: 27, total: 27 }, { data: 27, total: 27 }, { data: 27,
-                            total: 27 }
-                    ] }, M: { data: 620, blocks: [{ data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }, { data: 14, total: 18 },
-                            { data: 14, total: 18 }, { data: 14, total: 18 }
-                        ] }, Q: { data: 444, blocks: [{ data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }, { data: 7, total: 12 },
-                            { data: 7, total: 12 }, { data: 7, total: 12 }] },
-                    H: { data: 308, blocks: [{ data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 },
-                            { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3,
-                            total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }, { data: 3, total: 8 }
-                        ] } }
+            // 每个 [版本][纠错] 的总码字数
+            const TOTAL_CODEWORDS = {
+                1: { L: 26, M: 26, Q: 26, H: 26 },
+                2: { L: 44, M: 44, Q: 44, H: 44 },
+                3: { L: 70, M: 70, Q: 70, H: 70 },
+                4: { L: 100, M: 100, Q: 100, H: 100 },
+                5: { L: 134, M: 134, Q: 134, H: 134 },
+                10: { L: 346, M: 346, Q: 346, H: 346 },
+                40: { L: 816, M: 816, Q: 816, H: 816 }
             };
 
-            // 格式信息表 (5位数据 + 10位BCH) -> 15位完整格式信息
-            // 索引 = ecLevel(0=M,1=L,2=H,3=Q) * 8 + mask(0-7)
+            // 块结构: [纠错][版本] -> [{numBlocks, dataPerBlock, totalPerBlock}]
+            const BLOCK_STRUCT = {
+                L: {
+                    1: [{ n: 1, d: 19, t: 26 }],
+                    2: [{ n: 1, d: 34, t: 44 }],
+                    3: [{ n: 1, d: 55, t: 70 }],
+                    4: [{ n: 1, d: 80, t: 100 }],
+                    5: [{ n: 1, d: 108, t: 134 }],
+                    10: [{ n: 4, d: 68, t: 80 }],
+                    40: [{ n: 2, d: 26, t: 27 }, { n: 28, d: 27, t: 27 }]
+                },
+                M: {
+                    1: [{ n: 1, d: 16, t: 26 }],
+                    2: [{ n: 1, d: 28, t: 44 }],
+                    3: [{ n: 1, d: 44, t: 70 }],
+                    4: [{ n: 2, d: 32, t: 50 }],
+                    5: [{ n: 2, d: 43, t: 67 }],
+                    10: [{ n: 4, d: 28, t: 40 }, { n: 4, d: 28, t: 40 }],
+                    40: [{ n: 2, d: 14, t: 18 }, { n: 44, d: 14, t: 18 }]
+                },
+                Q: {
+                    1: [{ n: 1, d: 13, t: 26 }],
+                    2: [{ n: 1, d: 22, t: 44 }],
+                    3: [{ n: 2, d: 17, t: 35 }],
+                    4: [{ n: 2, d: 24, t: 50 }],
+                    5: [{ n: 2, d: 15, t: 33 }, { n: 2, d: 16, t: 33 }],
+                    10: [{ n: 4, d: 16, t: 32 }, { n: 6, d: 16, t: 32 }],
+                    40: [{ n: 2, d: 7, t: 12 }, { n: 76, d: 7, t: 12 }]
+                },
+                H: {
+                    1: [{ n: 1, d: 9, t: 26 }],
+                    2: [{ n: 1, d: 16, t: 44 }],
+                    3: [{ n: 2, d: 13, t: 35 }],
+                    4: [{ n: 4, d: 9, t: 25 }],
+                    5: [{ n: 2, d: 11, t: 33 }, { n: 2, d: 12, t: 33 }],
+                    10: [{ n: 4, d: 14, t: 26 }, { n: 14, d: 14, t: 26 }],
+                    40: [{ n: 2, d: 3, t: 8 }, { n: 120, d: 3, t: 8 }]
+                }
+            };
+
+            // 格式信息: [ecIndex(0=M,1=L,2=H,3=Q) * 8 + mask]
             const FORMAT_INFO = [
                 0x5412, 0x5125, 0x5E7C, 0x5B4B, 0x45F9, 0x40CE, 0x4F97, 0x4AA0,
                 0x77C4, 0x72F3, 0x7DAA, 0x789D, 0x662F, 0x6318, 0x6C41, 0x6976,
                 0x1689, 0x13BE, 0x1CE7, 0x19D0, 0x0762, 0x0255, 0x0D0C, 0x083B,
                 0x355F, 0x3068, 0x3F31, 0x3A06, 0x24B4, 0x2183, 0x2EDA, 0x2BED
+            ];
+
+            // 版本信息 (版本7-40): 18位
+            const VERSION_INFO = [
+                0x07C94, 0x085BC, 0x09A99, 0x0A4D3, 0x0BBF6, 0x0C762, 0x0D847, 0x0E60D,
+                0x0F928, 0x10B78, 0x1145D, 0x12A17, 0x13532, 0x149A6, 0x15683, 0x168C9,
+                0x177EC, 0x18EC4, 0x191E1, 0x1AFAB, 0x1B08E, 0x1CC1A, 0x1D33F, 0x1ED75,
+                0x1F250, 0x209D5, 0x216F0, 0x228BA, 0x2379F, 0x24B0B, 0x2542E, 0x26A64,
+                0x27541, 0x28C69
             ];
 
             const EC_INDEX = { M: 0, L: 1, H: 2, Q: 3 };
@@ -275,16 +180,14 @@
 
             function gfMul(a, b) { if (!a || !b) return 0; return EXP[LOG[a] + LOG[b]]; }
 
-            function rsGenPoly(deg) { let g = [1]; for (let i = 0; i < deg; i++) { g = polyMul(g, [1,
-                    EXP[i]]); } return g; }
+            function rsGenPoly(deg) { let g = [1]; for (let i = 0; i < deg; i++) { let h = [1, EXP[i]]; let r =
+                        new Array(g.length + 1).fill(0); for (let j = 0; j < g.length; j++) { for (let k = 0; k <
+                            2; k++) r[j + k] ^= gfMul(g[j], h[k]); } g = r; } return g; }
 
-            function polyMul(a, b) { let r = new Array(a.length + b.length - 1).fill(0); for (let i = 0; i <
-                    a.length; i++) for (let j = 0; j < b.length; j++) r[i + j] ^= gfMul(a[i], b[j]); return r; }
-
-            function rsCompute(data, gen) { let r = new Array(data.length + gen.length - 1).fill(0); for (
-                    let i = 0; i < data.length; i++) r[i] = data[i]; for (let i = 0; i < data.length; i++) { let
-                        f = r[i]; if (f) for (let j = 0; j < gen.length; j++) r[i + j] ^= gfMul(gen[j], f); }
-                    return r.slice(data.length); }
+            function rsCompute(data, gen) { let r = new Array(data.length + gen.length - 1).fill(0); for (let i =
+                    0; i < data.length; i++) r[i] = data[i]; for (let i = 0; i < data.length; i++) { let f = r[i]; if (
+                        f) for (let j = 0; j < gen.length; j++) r[i + j] ^= gfMul(gen[j], f); } return r.slice(data
+                    .length); }
 
             function getAlignmentCenters(version) {
                 if (version === 1) return [];
@@ -294,147 +197,197 @@
                 if (version === 5) return [30];
                 if (version === 10) return [28, 50];
                 if (version === 40) return [30, 54, 78, 102, 126, 150];
-                // 通用计算
                 let size = MODULE_COUNT[version];
                 let intervals = Math.floor(version / 7) + 2;
                 let step = Math.floor((size - 13) / (intervals * 2)) * 2;
-                let centers = [6];
+                let c = [6];
                 let pos = size - 7;
-                for (let i = intervals - 1; i > 0; i--) { centers.push(pos);
+                for (let i = intervals - 1; i > 0; i--) { c.push(pos);
                     pos -= step; }
-                centers.sort((a, b) => a - b);
-                return centers;
+                c.sort((a, b) => a - b);
+                return c;
             }
 
             function generateQRCode(text, version, ecLevel) {
                 let size = MODULE_COUNT[version];
-                let cap = CAPACITY[version][ecLevel];
-                if (!cap) throw new Error('不支持的组合');
+                let blocksDef = BLOCK_STRUCT[ecLevel][version];
+                let totalData = blocksDef.reduce((s, b) => s + b.n * b.d, 0);
 
-                // === 数据编码 ===
+                // ===== 数据编码 =====
                 let bits = [];
-                // 字节模式 0100
-                bits.push(0, 1, 0, 0);
-                // 字符计数
+                bits.push(0, 1, 0, 0); // 字节模式
                 let countBits = version <= 9 ? 8 : 16;
                 for (let i = countBits - 1; i >= 0; i--) bits.push((text.length >> i) & 1);
-                // 数据
                 for (let i = 0; i < text.length; i++) {
                     let c = text.charCodeAt(i);
                     if (c > 255) c = 63;
                     for (let j = 7; j >= 0; j--) bits.push((c >> j) & 1);
                 }
-                // 终止符
                 bits.push(0, 0, 0, 0);
                 while (bits.length % 8) bits.push(0);
-
-                // 转字节
                 let bytes = [];
-                for (let i = 0; i < bits.length; i += 8) { let b = 0; for (let j = 0; j < 8; j++) b = (b <<
-                        1) | (bits[i + j] || 0);
+                for (let i = 0; i < bits.length; i += 8) { let b = 0; for (let j = 0; j < 8; j++) b = (b << 1) | (
+                        bits[i + j] || 0);
                     bytes.push(b); }
-
-                // 填充
-                while (bytes.length < cap.data) { bytes.push(0xEC); if (bytes.length < cap.data) bytes.push(
+                while (bytes.length < totalData) { bytes.push(0xEC); if (bytes.length < totalData) bytes.push(
                     0x11); }
 
-                // 分块 & 纠错
-                let blocks = cap.blocks;
+                // ===== 分块 & 纠错编码 =====
                 let dataBlocks = [],
                     ecBlocks = [],
                     off = 0;
-                for (let bi of blocks) { let bd = bytes.slice(off, off + bi.data);
-                    off += bi.data;
-                    dataBlocks.push(bd);
-                    ecBlocks.push(rsCompute(bd, rsGenPoly(bi.total - bi.data))); }
+                for (let bd of blocksDef) {
+                    for (let k = 0; k < bd.n; k++) {
+                        let block = bytes.slice(off, off + bd.d);
+                        off += bd.d;
+                        dataBlocks.push(block);
+                        ecBlocks.push(rsCompute(block, rsGenPoly(bd.t - bd.d)));
+                    }
+                }
 
-                // 交织
+                // ===== 交织 =====
                 let inter = [];
                 let maxD = Math.max(...dataBlocks.map(b => b.length));
-                for (let i = 0; i < maxD; i++) for (let b of dataBlocks) if (i < b.length) inter.push(b[i]);
+                for (let i = 0; i < maxD; i++)
+                    for (let b of dataBlocks) if (i < b.length) inter.push(b[i]);
                 let maxE = Math.max(...ecBlocks.map(b => b.length));
-                for (let i = 0; i < maxE; i++) for (let b of ecBlocks) if (i < b.length) inter.push(b[i]);
+                for (let i = 0; i < maxE; i++)
+                    for (let b of ecBlocks) if (i < b.length) inter.push(b[i]);
 
-                // 转位
                 let allBits = [];
                 for (let cw of inter) for (let j = 7; j >= 0; j--) allBits.push((cw >> j) & 1);
 
-                // === 创建矩阵并绘制功能图形 ===
+                // 剩余位填充
+                let remainder = version === 1 ? 0 : version === 2 ? 7 : version === 3 ? 7 : version === 4 ? 7 :
+                    version === 5 ? 7 : version === 10 ? 3 : 0;
+                for (let i = 0; i < remainder; i++) allBits.push(0);
+
+                // ===== 创建矩阵 =====
                 let mtx = new Array(size);
                 for (let i = 0; i < size; i++) mtx[i] = new Array(size).fill(null);
 
-                function drawFinder(r0, c0) { for (let r = -1; r <= 7; r++) for (let c = -1; c <= 7; c++) { let
-                            rr = r0 + r,
-                            cc = c0 + c; if (rr >= 0 && rr < size && cc >= 0 && cc < size) { if (r >= 0 && r <=
-                                6 && c >= 0 && c <= 6) mtx[rr][cc] = (r === 0 || r === 6 || c === 0 || c ===
-                                6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)); else mtx[rr][cc] = false; } } }
+                // 定位图案
+                function drawFinder(r0, c0) {
+                    for (let r = -1; r <= 7; r++)
+                        for (let c = -1; c <= 7; c++) {
+                            let rr = r0 + r,
+                                cc = c0 + c;
+                            if (rr >= 0 && rr < size && cc >= 0 && cc < size) {
+                                if (r >= 0 && r <= 6 && c >= 0 && c <= 6)
+                                    mtx[rr][cc] = (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 &&
+                                        c >= 2 && c <= 4));
+                                else mtx[rr][cc] = false;
+                            }
+                        }
+                }
                 drawFinder(0, 0);
                 drawFinder(0, size - 7);
                 drawFinder(size - 7, 0);
 
-                for (let i = 8; i < size - 8; i++) { mtx[6][i] = i % 2 === 0;
-                    mtx[i][6] = i % 2 === 0; }
+                // 时序图案
+                for (let i = 8; i < size - 8; i++) {
+                    if (mtx[6][i] === null) mtx[6][i] = i % 2 === 0;
+                    if (mtx[i][6] === null) mtx[i][6] = i % 2 === 0;
+                }
 
-                function drawAlign(r0, c0) { for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++) { let
-                            rr = r0 + r,
-                            cc = c0 + c; if (rr >= 0 && rr < size && cc >= 0 && cc < size) mtx[rr][cc] = (r === -
-                            2 || r === 2 || c === -2 || c === 2 || (r === 0 && c === 0)); } }
+                // 对齐图案
+                function drawAlign(r0, c0) {
+                    for (let r = -2; r <= 2; r++)
+                        for (let c = -2; c <= 2; c++) {
+                            let rr = r0 + r,
+                                cc = c0 + c;
+                            if (rr >= 0 && rr < size && cc >= 0 && cc < size)
+                                mtx[rr][cc] = (r === -2 || r === 2 || c === -2 || c === 2 || (r === 0 && c === 0));
+                        }
+                }
                 let ac = getAlignmentCenters(version);
-                for (let r of ac) for (let c of ac) if (!((r === 6 && c === 6) || (r === 6 && c === size - 7) || (
-                        r === size - 7 && c === 6))) drawAlign(r, c);
+                for (let r of ac)
+                    for (let c of ac)
+                        if (!((r === 6 && c === 6) || (r === 6 && c === size - 7) || (r === size - 7 && c === 6)))
+                            drawAlign(r, c);
 
-                // 临时格式区占位为 false
-                for (let i = 0; i <= 8; i++) { if (mtx[i][8] === null) mtx[i][8] = false; if (mtx[8][i] ===
-                        null) mtx[8][i] = false; }
-                for (let i = 0; i < 8; i++) { if (mtx[size - i - 1][8] === null) mtx[size - i - 1][8] = false;
-                    if (mtx[8][size - i - 1] === null) mtx[8][size - i - 1] = false; }
+                // 格式信息区域先占位为 false
+                for (let i = 0; i <= 8; i++) {
+                    if (mtx[i][8] === null) mtx[i][8] = false;
+                    if (mtx[8][i] === null) mtx[8][i] = false;
+                }
+                for (let i = 0; i < 8; i++) {
+                    if (mtx[size - i - 1][8] === null) mtx[size - i - 1][8] = false;
+                    if (mtx[8][size - i - 1] === null) mtx[8][size - i - 1] = false;
+                }
 
-                // === 放置数据位 ===
+                // 版本信息区域占位 (版本 >= 7)
+                if (version >= 7) {
+                    for (let i = 0; i < 6; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            if (mtx[i][size - 11 + j] === null) mtx[i][size - 11 + j] = false;
+                            if (mtx[size - 11 + j][i] === null) mtx[size - 11 + j][i] = false;
+                        }
+                    }
+                }
+
+                // ===== 放置数据位 =====
                 let col = size - 1,
                     row = size - 1,
                     dir = -1,
                     bi = 0;
 
-                function can(r, c) { return r >= 0 && r < size && c >= 0 && c < size && mtx[r][c] === null; }
-
-                function nextPos() {
-                    if (col === 6) col--;
-                    if (dir === -1 && row < 0) { col -= 2; if (col === 6) col--;
-                        row = 0;
-                        dir = 1; } else if (dir === 1 && row >= size) { col -= 2; if (col === 6) col--;
-                        row = size - 1;
-                        dir = -1; }
-                    return col >= 0;
-                }
+                function canPlace(r, c) { return r >= 0 && r < size && c >= 0 && c < size && mtx[r][c] ===
+                null; }
 
                 while (col >= 0 && bi < allBits.length) {
-                    for (let d = 0; d < 2; d++) { let c = col - d; if (can(row, c)) mtx[row][c] = allBits[bi++]; }
+                    if (col === 6) col--;
+                    for (let d = 0; d < 2; d++) {
+                        let c = col - d;
+                        if (canPlace(row, c)) mtx[row][c] = allBits[bi++];
+                    }
                     row += dir;
-                    nextPos();
+                    if (row < 0 || row >= size) {
+                        dir = -dir;
+                        row += dir;
+                        col -= 2;
+                        if (col === 6) col--;
+                    }
                 }
 
-                // === 掩码选择 ===
-                function maskFn(mask, r, c) { switch (mask) { case 0: return (r + c) % 2 === 0; case 1: return r %
-                            2 === 0; case 2: return c % 3 === 0; case 3: return (r + c) % 3 === 0; case 4: return (
-                                Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0; case 5: return (r * c) % 2 + (
-                            r * c) % 3 === 0; case 6: return ((r * c) % 2 + (r * c) % 3) % 2 === 0; case 7: return ((
-                            r + c) % 2 + (r * c) % 3) % 2 === 0; } return false; }
+                // ===== 掩码选择 =====
+                function maskFn(m, r, c) {
+                    switch (m) {
+                        case 0:
+                            return (r + c) % 2 === 0;
+                        case 1:
+                            return r % 2 === 0;
+                        case 2:
+                            return c % 3 === 0;
+                        case 3:
+                            return (r + c) % 3 === 0;
+                        case 4:
+                            return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0;
+                        case 5:
+                            return (r * c) % 2 + (r * c) % 3 === 0;
+                        case 6:
+                            return ((r * c) % 2 + (r * c) % 3) % 2 === 0;
+                        case 7:
+                            return ((r + c) % 2 + (r * c) % 3) % 2 === 0;
+                    }
+                    return false;
+                }
 
                 function scoreMatrix(mat) {
                     let s = 0,
                         sz = mat.length;
-                    // 水平连续
-                    for (let r = 0; r < sz; r++) { let cnt = 1; for (let c = 1; c < sz; c++) { if (mat[r][c] ===
-                                mat[r][c - 1]) cnt++; else { if (cnt >= 5) s += cnt - 2;
+                    for (let r = 0; r < sz; r++) { let cnt = 1; for (let c = 1; c < sz; c++) { if (mat[r][c] === mat[
+                                r
+                            ][c - 1]) cnt++; else { if (cnt >= 5) s += cnt - 2;
                             cnt = 1; } } if (cnt >= 5) s += cnt - 2; }
-                    // 垂直连续
-                    for (let c = 0; c < sz; c++) { let cnt = 1; for (let r = 1; r < sz; r++) { if (mat[r][c] ===
-                                mat[r - 1][c]) cnt++; else { if (cnt >= 5) s += cnt - 2;
+                    for (let c = 0; c < sz; c++) { let cnt = 1; for (let r = 1; r < sz; r++) { if (mat[r][c] === mat[
+                                r - 1
+                            ][c]) cnt++; else { if (cnt >= 5) s += cnt - 2;
                             cnt = 1; } } if (cnt >= 5) s += cnt - 2; }
-                    // 2x2 块
-                    for (let r = 0; r < sz - 1; r++) for (let c = 0; c < sz - 1; c++) if (mat[r][c] === mat[r + 1][
-                            c
-                        ] && mat[r][c] === mat[r][c + 1] && mat[r][c] === mat[r + 1][c + 1]) s += 3;
+                    for (let r = 0; r < sz - 1; r++)
+                        for (let c = 0; c < sz - 1; c++)
+                            if (mat[r][c] === mat[r + 1][c] && mat[r][c] === mat[r][c + 1] && mat[r][c] === mat[r +
+                                    1][c + 1]) s += 3;
                     return s;
                 }
 
@@ -453,31 +406,70 @@
                 }
                 mtx = bestMat;
 
-                // === 绘制格式信息 ===
-                let fmtBits = FORMAT_INFO[EC_INDEX[ecLevel] * 8 + bestMask];
-                let fmtPositions = [];
-                // 左上角 + 右上角 + 左下角
-                for (let i = 0; i <= 5; i++) fmtPositions.push([i, 8]);
-                fmtPositions.push([7, 8]);
-                fmtPositions.push([8, 8]);
-                for (let i = 0; i <= 5; i++) fmtPositions.push([8, 7 - i]);
-                fmtPositions.push([8, 1]);
-                fmtPositions.push([8, 0]);
-                // 右上角
-                for (let i = 0; i <= 7; i++) fmtPositions.push([size - 8 + i, 8]);
-                // 左下角
-                for (let i = 0; i <= 7; i++) fmtPositions.push([8, size - 1 - i]);
+                // ===== 写入格式信息 (修复) =====
+                let fmt = FORMAT_INFO[EC_INDEX[ecLevel] * 8 + bestMask];
 
-                // 重新填充格式信息（覆盖之前的占位）
+                // 左上角格式信息 (绕定位图案)
+                let fmtCoords = [
+                    [0, 8],
+                    [1, 8],
+                    [2, 8],
+                    [3, 8],
+                    [4, 8],
+                    [5, 8],
+                    [7, 8],
+                    [8, 8],
+                    [8, 7],
+                    [8, 5],
+                    [8, 4],
+                    [8, 3],
+                    [8, 2],
+                    [8, 1],
+                    [8, 0]
+                ];
                 for (let i = 0; i < 15; i++) {
-                    let bit = (fmtBits >> (14 - i)) & 1;
-                    let [r, c] = fmtPositions[i];
-                    if (r >= 0 && r < size && c >= 0 && c < size) mtx[r][c] = bit === 1;
+                    let [r, c] = fmtCoords[i];
+                    let bit = (fmt >> (14 - i)) & 1;
+                    mtx[r][c] = bit === 1;
                 }
-                // 暗模块
-                if (mtx[size - 8][8] === null || mtx[size - 8][8] === false) mtx[size - 8][8] = true;
 
-                // 最终清理
+                // 右上角格式信息
+                for (let i = 0; i < 8; i++) {
+                    let bit = (fmt >> (14 - i)) & 1;
+                    mtx[8][size - 1 - i] = bit === 1;
+                }
+
+                // 左下角格式信息
+                for (let i = 0; i < 7; i++) {
+                    let bit = (fmt >> (7 - i)) & 1;
+                    mtx[size - 1 - i][8] = bit === 1;
+                }
+                // 左下角最后一个 (位14)
+                mtx[size - 8][8] = ((fmt >> 14) & 1) === 1;
+
+                // 暗模块
+                mtx[size - 8][8] = true;
+
+                // ===== 版本信息 (版本 >= 7) =====
+                if (version >= 7) {
+                    let vi = VERSION_INFO[version - 7];
+                    // 左下角
+                    for (let i = 0; i < 6; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            let bit = (vi >> (i * 3 + j)) & 1;
+                            mtx[i][size - 11 + j] = bit === 1;
+                        }
+                    }
+                    // 右上角
+                    for (let i = 0; i < 6; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            let bit = (vi >> (i * 3 + j)) & 1;
+                            mtx[size - 11 + j][i] = bit === 1;
+                        }
+                    }
+                }
+
+                // ===== 最终清理 =====
                 for (let r = 0; r < size; r++)
                     for (let c = 0; c < size; c++)
                         if (mtx[r][c] === null) mtx[r][c] = false;
@@ -485,7 +477,7 @@
                 return { modules: mtx, moduleCount: size, mask: bestMask };
             }
 
-            // ========== 应用 ==========
+            // ========== 渲染 ==========
             const textInput = document.getElementById('textInput');
             const versionSelect = document.getElementById('versionSelect');
             const errorLevelSelect = document.getElementById('errorLevel');
@@ -512,45 +504,50 @@
                 statusBadge.className = 'badge';
                 qrStage.innerHTML = '';
                 currentQRCanvas = null;
-                if (!text) { qrStage.innerHTML = '<div class="placeholder-text">输入内容后点击「生成二维码」</div>';
+                if (!text) { qrStage.innerHTML = '<div class="placeholder-text">点击「生成」</div>';
                     statusBadge.textContent = '就绪'; return; }
                 try {
                     let result = generateQRCode(text, version, ec);
                     let modules = result.modules,
                         count = result.moduleCount;
+                    // 安静区: 4 模块宽
+                    let quiet = 4;
+                    let scale = Math.max(Math.floor(500 / (count + quiet * 2)), 3);
                     let canvas = document.createElement('canvas');
-                    let scale = Math.max(Math.floor(500 / count), 3);
-                    canvas.width = count * scale;
-                    canvas.height = count * scale;
+                    canvas.width = (count + quiet * 2) * scale;
+                    canvas.height = (count + quiet * 2) * scale;
                     canvas.style.maxWidth = '100%';
                     canvas.style.height = 'auto';
                     canvas.style.imageRendering = 'pixelated';
                     let ctx = canvas.getContext('2d');
                     ctx.imageSmoothingEnabled = false;
+                    // 全白背景 (安静区)
                     ctx.fillStyle = '#FFFFFF';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    // 黑模块
                     ctx.fillStyle = '#000000';
                     for (let r = 0; r < count; r++)
                         for (let c = 0; c < count; c++)
-                            if (modules[r][c]) ctx.fillRect(c * scale, r * scale, scale, scale);
+                            if (modules[r][c]) ctx.fillRect((quiet + c) * scale, (quiet + r) * scale, scale,
+                            scale);
                     qrStage.appendChild(canvas);
                     currentQRCanvas = canvas;
-                    gridBadge.textContent = '网格: ' + count + '×' + count;
+                    gridBadge.textContent = '网格: ' + count + '×' + count + ' + 安静区';
                     statusBadge.textContent = '✅ 可扫描 (mask ' + result.mask + ')';
                     statusBadge.className = 'badge success';
                 } catch (e) {
                     console.error(e);
-                    qrStage.innerHTML = '<div class="error-box">❌ <strong>容量不足</strong><br>版本' + version +
-                        ' (' + mc + '×' + mc + ') + ' + ec + '级 无法容纳。<br>👉 请减少字符或升级版本。</div>';
+                    qrStage.innerHTML = '<div class="error-box">❌ 容量不足<br>版本' + version + ' (' + mc +
+                        '×' + mc + ') + ' + ec + '级 无法容纳</div>';
                     statusBadge.textContent = '❌ 容量不足';
                     statusBadge.className = 'badge error';
                 }
             }
 
-            function printQR() { if (!currentQRCanvas) { alert('请先生成二维码'); return; } let u =
+            function printQR() { if (!currentQRCanvas) { alert('请先生成'); return; } let u =
                     currentQRCanvas.toDataURL('image/png'); let w = window.open('', '_blank',
                     'width=900,height=900'); if (!w) { alert('弹窗被拦截'); return; } w.document.write(
-                    '<!DOCTYPE html><html><head><title>打印</title><style>@page{size:A4;margin:12mm}*{margin:0;padding:0}body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:white}img{max-width:100%;max-height:95vh;image-rendering:pixelated}</style></head><body><img src="' +
+                    '<!DOCTYPE html><html><head><title>打印</title><style>@page{size:A4;margin:12mm}*{margin:0;padding:0}body{display:flex;justify-content:center;align-items:center;min-height:100vh}img{max-width:100%;max-height:95vh;image-rendering:pixelated}</style></head><body><img src="' +
                     u + '" onload="window.print()"></body></html>');
                 w.document.close(); }
             generateBtn.addEventListener('click', generate);

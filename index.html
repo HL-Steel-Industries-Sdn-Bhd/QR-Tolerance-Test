@@ -3,21 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR码·容错实验室 | 骨架与数据区可视化</title>
-  <!-- 使用更稳定的 qrcode-generator 库 -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <title>QR码·容错实验室 v2</title>
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.min.js"></script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: #f0f2f5;
       font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       min-height: 100vh;
       padding: 20px;
     }
@@ -28,6 +23,7 @@
       border-radius: 24px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.1);
       padding: 30px;
+      margin-top: 10px;
     }
     h1 {
       font-size: 2rem;
@@ -42,9 +38,7 @@
       margin-bottom: 28px;
       font-size: 0.9rem;
     }
-    .input-group {
-      margin-bottom: 24px;
-    }
+    .input-group { margin-bottom: 24px; }
     label {
       font-weight: 600;
       font-size: 0.85rem;
@@ -82,9 +76,7 @@
       border-radius: 16px;
       align-items: flex-end;
     }
-    .control-item {
-      flex: 1 1 160px;
-    }
+    .control-item { flex: 1 1 160px; }
     select, button {
       width: 100%;
       padding: 11px 14px;
@@ -118,15 +110,9 @@
       transform: translateY(-1px);
       box-shadow: 0 6px 16px rgba(0,0,0,0.12);
     }
-    button:active {
-      transform: translateY(0);
-    }
-    button.print-btn {
-      background: #2563eb;
-    }
-    button.print-btn:hover {
-      background: #1d4ed8;
-    }
+    button:active { transform: translateY(0); }
+    button.print-btn { background: #2563eb; }
+    button.print-btn:hover { background: #1d4ed8; }
     .info-bar {
       background: #f1f5f9;
       padding: 12px 18px;
@@ -160,7 +146,7 @@
       min-height: 250px;
       margin-bottom: 16px;
     }
-    #qrDisplay {
+    #qrCanvas {
       display: block;
       max-width: 100%;
       height: auto;
@@ -181,36 +167,26 @@
       font-size: 0.85rem;
       text-align: center;
     }
+    .success-msg {
+      color: #16a34a;
+      background: #f0fdf4;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      text-align: center;
+    }
     @media print {
-      body {
-        background: white;
-        padding: 0;
-      }
-      .lab-container {
-        box-shadow: none;
-        border-radius: 0;
-        padding: 0;
-        max-width: 100%;
-      }
-      .control-panel, .input-group, .info-bar, .legend, h1, .subtitle, button {
-        display: none;
-      }
-      .qr-stage {
-        border: none;
-        padding: 0;
-        margin: 0;
-      }
-      #qrDisplay {
-        width: 100%;
-        max-width: 100%;
-        page-break-inside: avoid;
-      }
+      body { background: white; padding: 0; }
+      .lab-container { box-shadow: none; border-radius: 0; padding: 0; max-width: 100%; }
+      .control-panel, .input-group, .info-bar, .legend, h1, .subtitle, button { display: none; }
+      .qr-stage { border: none; padding: 0; margin: 0; }
+      #qrCanvas { width: 100%; max-width: 100%; page-break-inside: avoid; }
     }
   </style>
 </head>
 <body>
 <div class="lab-container">
-  <h1>🔬 QR 容错实验室</h1>
+  <h1>🔬 QR 容错实验室 v2</h1>
   <div class="subtitle">版本(尺寸) · 纠错等级 · 字符计数 · 实时预览</div>
 
   <div class="input-group">
@@ -253,12 +229,11 @@
     <span class="badge" id="versionInfo">版本: -</span>
     <span class="badge" id="errorInfo">纠错: -</span>
     <span class="badge" id="gridSize">网格: -</span>
+    <span class="badge" id="statusBadge" style="background:#e2e8f0;">状态: 就绪</span>
   </div>
 
   <div class="qr-stage" id="qrStage">
-    <div id="qrDisplay" style="width:300px; height:300px; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:14px;">
-      输入内容后点击生成
-    </div>
+    <canvas id="qrCanvas" width="300" height="300"></canvas>
   </div>
   <div class="legend">
     💡 三个角落的「回」字是定位骨架 · 黑白模块是数据与纠错码的交织呈现
@@ -273,11 +248,13 @@
     const errorLevelSelect = document.getElementById('errorLevel');
     const generateBtn = document.getElementById('generateBtn');
     const printBtn = document.getElementById('printBtn');
+    const qrCanvas = document.getElementById('qrCanvas');
     const qrStage = document.getElementById('qrStage');
     const charCountSpan = document.getElementById('charCount');
     const versionInfoSpan = document.getElementById('versionInfo');
     const errorInfoSpan = document.getElementById('errorInfo');
     const gridSizeSpan = document.getElementById('gridSize');
+    const statusBadge = document.getElementById('statusBadge');
 
     // 版本对应模块数
     const versionModules = {
@@ -285,11 +262,9 @@
       10: 57, 40: 177
     };
 
-    // 存储当前生成的二维码数据URL（用于打印）
-    let currentQRDataURL = null;
-    // 存储当前二维码的模块矩阵（用于精确渲染）
-    let currentQRModules = null;
-    let currentModuleCount = 0;
+    // 当前二维码对象
+    let currentQRCode = null;
+    let lastGeneratedDataURL = null;
 
     // 生成二维码
     function generateQR() {
@@ -304,78 +279,145 @@
       errorInfoSpan.textContent = `纠错: ${errorLevel}级`;
       gridSizeSpan.textContent = `网格: ${moduleCount}×${moduleCount}`;
 
-      // 清空显示区
-      qrStage.innerHTML = '';
-
       if (!text) {
-        qrStage.innerHTML = '<div style="color:#94a3b8; font-size:14px;">输入内容后点击生成</div>';
-        currentQRDataURL = null;
-        currentQRModules = null;
+        statusBadge.textContent = '状态: 请输入内容';
+        statusBadge.style.background = '#fef3c7';
+        clearCanvas();
+        currentQRCode = null;
+        lastGeneratedDataURL = null;
         return;
       }
 
+      // 清除旧二维码
+      if (currentQRCode) {
+        // qr-code-styling 没有直接的 destroy 方法，我们移除旧 canvas 重新创建
+        const oldCanvas = qrStage.querySelector('canvas');
+        if (oldCanvas) {
+          oldCanvas.remove();
+        }
+        const newCanvas = document.createElement('canvas');
+        newCanvas.id = 'qrCanvas';
+        newCanvas.style.maxWidth = '100%';
+        newCanvas.style.height = 'auto';
+        newCanvas.style.imageRendering = 'pixelated';
+        newCanvas.style.imageRendering = 'crisp-edges';
+        qrStage.appendChild(newCanvas);
+        // 更新全局引用
+        window.qrCanvas = newCanvas;
+      }
+
       try {
-        // 映射纠错等级
-        const errorCorrectionMap = {
-          'L': qrcodegenerator.ErrorCorrectionLevel.L,
-          'M': qrcodegenerator.ErrorCorrectionLevel.M,
-          'Q': qrcodegenerator.ErrorCorrectionLevel.Q,
-          'H': qrcodegenerator.ErrorCorrectionLevel.H
-        };
-
-        // 创建二维码生成器
-        const qr = qrcodegenerator.create(version, errorCorrectionMap[errorLevel]);
-        qr.addData(text, qrcodegenerator.Mode.BYTE);
-        qr.make();
-
-        // 获取模块矩阵
-        const modules = qr.getModules();
-        currentQRModules = modules;
-        currentModuleCount = qr.getModuleCount();
-
-        // 创建 Canvas 并绘制
-        const canvas = document.createElement('canvas');
-        const scale = Math.max(Math.floor(600 / currentModuleCount), 4);
-        canvas.width = currentModuleCount * scale;
-        canvas.height = currentModuleCount * scale;
-        canvas.style.imageRendering = 'pixelated';
-        canvas.style.imageRendering = 'crisp-edges';
-        canvas.style.maxWidth = '100%';
-        canvas.style.height = 'auto';
-        canvas.style.borderRadius = '8px';
-
-        const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = false;
-
-        // 绘制白色背景
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // 绘制黑色模块
-        ctx.fillStyle = '#000000';
-        for (let row = 0; row < currentModuleCount; row++) {
-          for (let col = 0; col < currentModuleCount; col++) {
-            if (modules[row][col]) {
-              ctx.fillRect(col * scale, row * scale, scale, scale);
-            }
+        // 使用 qr-code-styling 创建二维码
+        currentQRCode = new QRCodeStyling({
+          width: 400,
+          height: 400,
+          type: "canvas",
+          data: text,
+          qrOptions: {
+            typeNumber: version,        // 指定版本号 (1-40)
+            errorCorrectionLevel: errorLevel,  // L, M, Q, H
+            mode: "Byte"
+          },
+          dotsOptions: {
+            color: "#000000",
+            type: "square"
+          },
+          backgroundOptions: {
+            color: "#ffffff",
+          },
+          imageOptions: {
+            crossOrigin: "anonymous",
+            margin: 0
           }
+        });
+
+        // 获取 canvas 引用
+        const canvasEl = qrStage.querySelector('canvas');
+        if (!canvasEl) {
+          throw new Error('Canvas 元素未找到');
         }
 
-        qrStage.appendChild(canvas);
-        currentQRDataURL = canvas.toDataURL('image/png');
+        // 渲染到 canvas
+        currentQRCode.append(canvasEl);
+
+        // 等待渲染完成后获取数据
+        setTimeout(() => {
+          try {
+            lastGeneratedDataURL = canvasEl.toDataURL('image/png');
+            statusBadge.textContent = '状态: ✅ 生成成功';
+            statusBadge.style.background = '#dcfce7';
+            console.log(`✅ QR生成成功: 版本${version}, ${errorLevel}级, ${moduleCount}×${moduleCount}, 内容${text.length}字符`);
+          } catch (e) {
+            console.warn('获取 DataURL 失败，但二维码已显示:', e);
+            lastGeneratedDataURL = null;
+            statusBadge.textContent = '状态: ⚠️ 已显示(打印需重试)';
+            statusBadge.style.background = '#fef3c7';
+          }
+        }, 300);
 
       } catch (e) {
-        qrStage.innerHTML = `<div class="error-msg">❌ 生成失败：内容过长，无法放入版本${version} (${moduleCount}×${moduleCount}) 且纠错等级 ${errorLevel} 的码中。<br>请减少字符或升级版本。</div>`;
         console.error('QR生成错误:', e);
-        currentQRDataURL = null;
-        currentQRModules = null;
+        statusBadge.textContent = '状态: ❌ 容量不足';
+        statusBadge.style.background = '#fef2f2';
+        clearCanvas();
+        showErrorOnCanvas(`内容过长，版本${version} (${moduleCount}×${moduleCount}) + ${errorLevel}级纠错 无法容纳。\n请减少字符或升级版本。`);
+        currentQRCode = null;
+        lastGeneratedDataURL = null;
+      }
+    }
+
+    // 清空 Canvas
+    function clearCanvas() {
+      const canvasEl = qrStage.querySelector('canvas');
+      if (canvasEl) {
+        const ctx = canvasEl.getContext('2d');
+        ctx.fillStyle = '#f1f5f9';
+        ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '14px system-ui';
+        ctx.textAlign = 'center';
+        ctx.fillText('输入内容后点击生成', canvasEl.width/2, canvasEl.height/2);
+      }
+    }
+
+    // 在 Canvas 上显示错误信息
+    function showErrorOnCanvas(message) {
+      const canvasEl = qrStage.querySelector('canvas');
+      if (canvasEl) {
+        const ctx = canvasEl.getContext('2d');
+        canvasEl.width = 400;
+        canvasEl.height = 200;
+        ctx.fillStyle = '#fef2f2';
+        ctx.fillRect(0, 0, 400, 200);
+        ctx.fillStyle = '#dc2626';
+        ctx.font = '13px system-ui';
+        ctx.textAlign = 'center';
+        const lines = message.split('\n');
+        lines.forEach((line, i) => {
+          ctx.fillText(line, 200, 80 + i * 22);
+        });
       }
     }
 
     // 打印功能
     function printQR() {
-      if (!currentQRDataURL) {
-        alert('请先生成二维码再打印。');
+      const canvasEl = qrStage.querySelector('canvas');
+      if (!canvasEl) {
+        alert('请先生成二维码。');
+        return;
+      }
+
+      // 尝试获取最新的 dataURL
+      let dataURL = null;
+      try {
+        dataURL = canvasEl.toDataURL('image/png');
+      } catch (e) {
+        // 如果跨域或其他原因失败，尝试用之前的
+        dataURL = lastGeneratedDataURL;
+      }
+
+      if (!dataURL) {
+        alert('无法获取二维码图像，请重新生成后再试。');
         return;
       }
 
@@ -391,10 +433,7 @@
         <head>
           <title>打印 QR 码 - A4</title>
           <style>
-            @page {
-              size: A4;
-              margin: 12mm;
-            }
+            @page { size: A4; margin: 12mm; }
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
               display: flex;
@@ -409,14 +448,10 @@
               image-rendering: pixelated;
               image-rendering: crisp-edges;
             }
-            @media print {
-              body { margin: 0; }
-              img { max-height: 100vh; }
-            }
           </style>
         </head>
         <body>
-          <img src="${currentQRDataURL}" alt="QR Code" onload="window.print();">
+          <img src="${dataURL}" alt="QR Code" onload="window.print();">
         </body>
         </html>
       `);
@@ -426,8 +461,6 @@
     // 事件绑定
     generateBtn.addEventListener('click', generateQR);
     printBtn.addEventListener('click', printQR);
-
-    // 切换版本或纠错等级时自动重新生成
     versionSelect.addEventListener('change', generateQR);
     errorLevelSelect.addEventListener('change', generateQR);
 
